@@ -1,0 +1,30 @@
+{
+    "name": "battleship",
+    "version": "1.0.0",
+    "description": "A classic game designed to meet the project requirements provided by The Odin Project. This game will feature test-driven development, object-oriented programming and a basic computer 'AI' to play against.",
+    "private": true,
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "jest",
+        "build": "webpack"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jdelles/battleship.git"
+    },
+    "author": "James Delles (james.delles@gmail.com)",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jdelles/battleship/issues"
+    },
+    "devDependencies": {
+        "jest": "^27.4.2",
+        "webpack": "^5.64.4",
+        "webpack-cli": "^4.9.1",
+        "@babel/cli": "^7.16.0",
+        "@babel/core": "^7.16.0"
+    },
+    "homepage": "https://github.com/jdelles/battleship#readme"
+}
