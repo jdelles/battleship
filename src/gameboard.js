@@ -5,15 +5,21 @@ function gameBoard() {
         board: new Array(10).fill(new Array(10).fill(0)),
         sunkShips: 0,
         placeShip(ship, x, y, orientation) {
-            // does place ship handle error checking or does the UI?
+            // does place ship handle boundary checking or does the UI?
 
-            if (orientation === "horizontal") {
+            if (orientation.match("horizontal")) {
                 for (let i = 0; i < ship.size; i++) {
-                    this.board[x][y + i] = [ship, i];
+                    this.board[x + i][y] = {
+                        shipname: ship,
+                        shipposition: i,
+                    };
                 }
             } else {
                 for (let i = 0; i < ship.size; i++) {
-                    this.board[x + i][y] = new Array[(ship, i)]();
+                    this.board[x][y + i] = {
+                        shipname: ship,
+                        shipposition: i,
+                    };
                 }
             }
         },
