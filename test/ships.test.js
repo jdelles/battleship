@@ -1,6 +1,6 @@
 const ship = require("../src/ships");
 
-test("ship construction", () => {
+test("ship - construction", () => {
     const testObject = {
         name: "test Ship",
         length: 4,
@@ -15,7 +15,7 @@ test("ship construction", () => {
     expect(shipObject.isSunk()).toBeFalsy();
 });
 
-test("ship hits", () => {
+test("ship - hits", () => {
     const shipObject = ship("test Ship", 4);
 
     // verify damage free ship!
@@ -58,7 +58,7 @@ test("ship hits", () => {
     expect(shipObject.damage[3]).toBe(1);
 });
 
-test("multiple ships", () => {
+test("ship - multiple ships", () => {
     const ship1 = ship("ship 1", 4);
     const ship2 = ship("ship 2", 5);
 

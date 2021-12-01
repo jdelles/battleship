@@ -1,13 +1,12 @@
 # Battleship
 
-A classic game designed to meet the project requirements provided by The Odin Project. This game will feature test-driven development, object-oriented programming and a basic computer 'AI' to play against.
+A classic game designed to meet the project requirements provided by [The Odin Project](https://www.theodinproject.com) . This game will feature test-driven development, object-oriented programming and a basic computer 'AI' to play against.
 
-From [The Odin Project](https://www.theodinproject.com)  
-[View Here](https://jdelles.github.io/battleship/)
+[View Live Progress](https://jdelles.github.io/battleship/)
 
 ## Introduction
 
-Project: Battleship serves as an exercise in TDD. The game will be written in JavaScript and tested using the Jest framework.  
+Project: Battleship serves as an exercise in TDD. The game will be written in JavaScript and tested using the Jest framework.
 
 ## Skill
 
@@ -32,7 +31,7 @@ Project: Battleship serves as an exercise in TDD. The game will be written in Ja
 
 ## To do
 
--   [ ] Begin your app by creating the Ship factory function.
+-   [x] Create the Ship factory function.
 -   [ ] Create Gameboard factory.
 -   [ ] Create Player.
 -   [ ] Create 'AI' that can make legal moves
