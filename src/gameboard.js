@@ -1,46 +1,65 @@
-function gameBoard() {
-    const construct = {
-        board: new Array(10).fill(new Array(10).fill(0)),
-        sunkShips: 0,
-        placeShip(ship, x, y, orientation) {
-            // does place ship handle boundary checking or does the UI?
+const ship = require("../src/ships");
 
-            if (orientation.match("horizontal")) {
-                for (let i = 0; i < ship.size; i++) {
-                    this.board[x + i][y] = {
-                        shipname: ship,
-                        shipposition: i,
-                    };
-                }
-            } else {
-                for (let i = 0; i < ship.size; i++) {
-                    this.board[x][y + i] = {
-                        shipname: ship,
-                        shipposition: i,
-                    };
-                }
+const gameBoard = () => {
+    const boardSize = 10;
+    const board = new Array(boardSize).fill(new Array(boardSize).fill(0));
+    let shipCount = 0;
+    const horizontal = "horizontal";
+
+    const placeShip = (row, col, length, orientation) => {
+        if (!checkValidPlacement(row, col, length, orientation)) return;
+
+        shipCount += 1;
+        const shipToPlace = ship(`Ship-${shipCount}`, length);
+
+        if (orientation === horizontal) {
+            for (let i = 0; i < length; i++) {
+                board[row][col + i] = {
+                    ship: shipToPlace,
+                    position: i,
+                };
             }
-        },
-        receiveAttack(x, y) {
-            if (this.board[x][y] === 0) {
-                this.board[x][y] = 1;
-            } else if (this.board[x][y] === 1) {
-                // invalid guess - already tried
-            } else {
-                const hitShip = this.board[x][y][0];
-                const index = this.board[x][y][1];
-                hitShip.hit(index);
-                if (hitShip.isSunk()) {
-                    sunkShips++;
-                    if (sunkShips > 5) {
-                        // game over
-                    }
-                    // do something
-                }
+        } else {
+            for (let i = 0; i < length; i++) {
+                board[row + i][col] = {
+                    ship: shipToPlace,
+                    position: i,
+                };
             }
-        },
+        }
     };
-    return construct;
-}
+
+    const checkValidPlacement = (row, col, length, orientation) => {
+        if (orientation === horizontal) {
+            if (col < 0 || col + length > boardSize - 1) return false;
+            for (let i = col; i < col + length; i++) {
+                if (board[row][i] !== 0) return false;
+            }
+        } else {
+            if (row < 0 || row + length > boardSize - 1) return false;
+            for (let i = row; i < row + length; i++) {
+                if (board[i][col] !== 0) return false;
+            }
+        }
+        return true;
+    };
+
+    const receiveAttack = (row, col) => {
+        if (!checkValidAttack(row, col)) return false;
+        const {ship, position} = board[row][col];
+        ship.hit(position);
+        return true;
+    };
+
+    const checkValidAttack = (row, col) => {
+        if (board[row][col] === 0 || board[row][col] === 1) {
+            board[row][col] = 1;
+            return false;
+        }
+        return true;
+    };
+
+    return {board, shipCount, placeShip, receiveAttack};
+};
 
 module.exports = gameBoard;
