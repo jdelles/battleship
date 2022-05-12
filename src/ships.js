@@ -1,21 +1,14 @@
-function ships(name, size) {
-    const shipObject = {
-        name: name,
-        size: size,
-        damage: new Array(size).fill(0),
-        isSunk() {
-            let damageTotal = 0;
-            this.damage.forEach((element) => {
-                damageTotal += element;
-            });
-            return damageTotal === size;
-        },
-        hit(index) {
-            this.damage[index] = 1;
-        },
+const ship = (name, length) => {
+    const damage = new Array(length).fill(0);
+    let totalDamage = 0;
+    const hit = position => {
+        damage[position] = 1;
+        totalDamage++;
     };
+    const isSunk = () => {
+        return totalDamage === length;
+    };
+    return {name, length, damage, hit, isSunk};
+};
 
-    return shipObject;
-}
-
-module.exports = ships;
+module.exports = ship;

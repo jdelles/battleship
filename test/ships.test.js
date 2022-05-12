@@ -8,9 +8,10 @@ test("ship - construction", () => {
     };
 
     const shipObject = ship("test Ship", 4);
+    console.log(shipObject);
 
     expect(shipObject.name).toBe(testObject.name);
-    expect(shipObject.length).toBe(testObject.size);
+    expect(shipObject.length).toBe(testObject.length);
     expect(shipObject.damage[0]).toBe(testObject.damage[0]);
     expect(shipObject.isSunk()).toBeFalsy();
 });
@@ -65,10 +66,13 @@ test("ship - multiple ships", () => {
     expect(ship1.isSunk()).toBeFalsy();
     expect(ship2.isSunk()).toBeFalsy();
 
-    ship1.hit(1);
+    expect(ship1.name).toBe("ship 1");
+    expect(ship2.name).toBe("ship 2");
+
+    ship1.hit(2);
     expect(ship1.damage[0]).toBe(0);
-    expect(ship1.damage[1]).toBe(1);
-    expect(ship1.damage[2]).toBe(0);
+    expect(ship1.damage[1]).toBe(0);
+    expect(ship1.damage[2]).toBe(1);
     expect(ship1.damage[3]).toBe(0);
 
     ship2.hit(3);
