@@ -8,7 +8,6 @@ test("ship - construction", () => {
     };
 
     const shipObject = ship("test Ship", 4);
-    console.log(shipObject);
 
     expect(shipObject.name).toBe(testObject.name);
     expect(shipObject.length).toBe(testObject.length);
