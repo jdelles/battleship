@@ -16,10 +16,9 @@ test("gameboard - place ships", () => {
     console.log("gameboard - place ships - enter");
     const testBoard2 = gameBoard();
 
-    const shipCounter = testBoard2.counterCreator();
-
     console.log("gameboard - place ships - ship 1");
-    const name1 = `Ship-${shipCounter.incCounter()}`;
+    testBoard2.incCounter();
+    const name1 = `Ship-${testBoard2.getCounter()}`;
     const ship1 = `Ship-1`;
     testBoard2.placeShip(name1, 0, 0, 5, "horizontal");
 
@@ -34,10 +33,9 @@ test("gameboard - place ships", () => {
     expect(testBoard2.getPosition(0, 4).ship.name).toBe(ship1);
     expect(testBoard2.getPosition(0, 4).position).toBe(4);
 
-    expect(testBoard2.getPosition(4, 3).ship.name).toBe(ship1);
-
     console.log("gameboard - place ships - ship 2");
-    const name2 = `Ship-${shipCounter.incCounter()}`;
+    testBoard2.incCounter();
+    const name2 = `Ship-${testBoard2.getCounter()}`;
     const ship2 = `Ship-2`;
     testBoard2.placeShip(name2, 4, 3, 5, "horizontal");
 
@@ -53,7 +51,8 @@ test("gameboard - place ships", () => {
     expect(testBoard2.getPosition(4, 7).position).toBe(4);
 
     console.log("gameboard - place ships - ship 3");
-    const name3 = `Ship-${shipCounter.incCounter()}`;
+    testBoard2.incCounter();
+    const name3 = `Ship-${testBoard2.getCounter()}`;
     const ship3 = `Ship-3`;
     testBoard2.placeShip(name3, 2, 2, 5, "vertical");
 
@@ -66,7 +65,7 @@ test("gameboard - place ships", () => {
     expect(testBoard2.getPosition(5, 2).ship.name).toBe(ship3);
     expect(testBoard2.getPosition(5, 2).position).toBe(3); // 2
     expect(testBoard2.getPosition(6, 2).ship.name).toBe(ship3);
-    expect(testBoard2.getPosition(7, 2).position).toBe(4); // 2
+    expect(testBoard2.getPosition(6, 2).position).toBe(4); // 2
     console.log("gameboard - place ships - exit");
 });
 
