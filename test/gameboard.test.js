@@ -5,7 +5,7 @@ test("gameboard - construction", () => {
 
     for (let i = 0; i < 10; i++) {
         for (let j = 0; j < 10; j++) {
-            expect(testBoard.getPosition(i, j)).toBe(0);
+            expect(testBoard.getPosition(i, j)).toBe(-1);
         }
     }
 });
@@ -56,7 +56,7 @@ test("gameboard - place ships", () => {
     expect(testBoard2.getPosition(6, 2).position).toBe(4); // 2
 });
 
-test("gameboard - receive attack", () => {
+test("gameboard - receive attack / all ships sunk", () => {
     const testBoard3 = gameBoard();
     testBoard3.placeShip("Ship-1", 0, 0, 5, "horizontal");
     testBoard3.placeShip("Ship-2", 4, 3, 5, "horizontal");
@@ -88,5 +88,3 @@ test("gameboard - receive attack", () => {
     expect(testBoard3.getPosition(2, 2).ship.isSunk()).toBeTruthy();
     expect(testBoard3.checkAllShipsSunk()).toBeTruthy();
 });
-
-test("gameboard - all ships sunk", () => {});

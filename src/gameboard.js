@@ -1,15 +1,19 @@
 const ship = require("../src/ships");
 
 const gameBoard = () => {
+    const HIT = 1;
+    const MISS = 0;
+    const UNDISCOVERED = -1;
     const boardSize = 10;
+    const horizontal = "horizontal";
+
     const board = new Array(boardSize)
         .fill(null)
-        .map(() => new Array(boardSize).fill(0));
-    const horizontal = "horizontal";
+        .map(() => new Array(boardSize).fill(UNDISCOVERED));
 
     const hitOrMissBoard = new Array(boardSize)
         .fill(null)
-        .map(() => new Array(boardSize).fill(-1));
+        .map(() => new Array(boardSize).fill(UNDISCOVERED));
 
     const ships = [];
 
@@ -38,12 +42,12 @@ const gameBoard = () => {
         if (orientation === horizontal) {
             if (col < 0 || col + length > boardSize - 1) return false;
             for (let i = 0; i < length; i++) {
-                if (board[row][col + i] !== 0) return false;
+                if (board[row][col + i] !== UNDISCOVERED) return false;
             }
         } else {
             if (row < 0 || row + length > boardSize - 1) return false;
             for (let i = 0; i < length; i++) {
-                if (board[row + i][col] !== 0) return false;
+                if (board[row + i][col] !== UNDISCOVERED) return false;
             }
         }
         return true;
@@ -55,13 +59,15 @@ const gameBoard = () => {
         if (checkValidAttack(row, col)) {
             const {ship, position} = board[row][col];
             ship.hit(position);
-            hitOrMissBoard[row][col] = 1;
+            hitOrMissBoard[row][col] = HIT;
             if (ship.isSunk()) {
                 const index = getShipIndex(ship);
                 ships.splice(index, 1);
             }
+            return true;
         } else {
-            hitOrMissBoard[row][col] = 0;
+            hitOrMissBoard[row][col] = MISS;
+            return false;
         }
     };
 
@@ -77,18 +83,27 @@ const gameBoard = () => {
     };
 
     const checkValidAttack = (row, col) => {
-        if (board[row][col] === 0 || board[row][col] === 1) {
-            board[row][col] = 1;
+        if (row < 0 || col < 0 || row >= boardSize || col >= boardSize)
             return false;
-        }
+        if (board[row][col] === UNDISCOVERED) return false;
         return true;
+    };
+
+    const aiCheckAttack = (row, col) => {
+        return hitOrMissBoard[row][col] === UNDISCOVERED;
+    };
+
+    const getBoardSize = () => {
+        return boardSize;
     };
 
     return {
         getPosition,
         placeShip,
+        aiCheckAttack,
         receiveAttack,
         checkAllShipsSunk,
+        getBoardSize,
     };
 };
 
