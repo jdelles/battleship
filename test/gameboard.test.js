@@ -1,7 +1,6 @@
 const gameBoard = require("../src/gameboard");
 
 test("gameboard - construction", () => {
-    console.log("gameboard - construction - enter");
     const testBoard = gameBoard();
 
     for (let i = 0; i < 10; i++) {
@@ -9,18 +8,13 @@ test("gameboard - construction", () => {
             expect(testBoard.getPosition(i, j)).toBe(0);
         }
     }
-    console.log("gameboard - construction - exit");
 });
 
 test("gameboard - place ships", () => {
-    console.log("gameboard - place ships - enter");
     const testBoard2 = gameBoard();
 
-    console.log("gameboard - place ships - ship 1");
-    testBoard2.incCounter();
-    const name1 = `Ship-${testBoard2.getCounter()}`;
     const ship1 = `Ship-1`;
-    testBoard2.placeShip(name1, 0, 0, 5, "horizontal");
+    testBoard2.placeShip(ship1, 0, 0, 5, "horizontal");
 
     expect(testBoard2.getPosition(0, 0).ship.name).toBe(ship1);
     expect(testBoard2.getPosition(0, 0).position).toBe(0);
@@ -33,11 +27,8 @@ test("gameboard - place ships", () => {
     expect(testBoard2.getPosition(0, 4).ship.name).toBe(ship1);
     expect(testBoard2.getPosition(0, 4).position).toBe(4);
 
-    console.log("gameboard - place ships - ship 2");
-    testBoard2.incCounter();
-    const name2 = `Ship-${testBoard2.getCounter()}`;
     const ship2 = `Ship-2`;
-    testBoard2.placeShip(name2, 4, 3, 5, "horizontal");
+    testBoard2.placeShip(ship2, 4, 3, 5, "horizontal");
 
     expect(testBoard2.getPosition(4, 3).ship.name).toBe(ship2);
     expect(testBoard2.getPosition(4, 3).position).toBe(0);
@@ -50,11 +41,8 @@ test("gameboard - place ships", () => {
     expect(testBoard2.getPosition(4, 7).ship.name).toBe(ship2);
     expect(testBoard2.getPosition(4, 7).position).toBe(4);
 
-    console.log("gameboard - place ships - ship 3");
-    testBoard2.incCounter();
-    const name3 = `Ship-${testBoard2.getCounter()}`;
     const ship3 = `Ship-3`;
-    testBoard2.placeShip(name3, 2, 2, 5, "vertical");
+    testBoard2.placeShip(ship3, 2, 2, 5, "vertical");
 
     expect(testBoard2.getPosition(2, 2).ship.name).toBe(ship3);
     expect(testBoard2.getPosition(2, 2).position).toBe(0); // 2
@@ -66,9 +54,39 @@ test("gameboard - place ships", () => {
     expect(testBoard2.getPosition(5, 2).position).toBe(3); // 2
     expect(testBoard2.getPosition(6, 2).ship.name).toBe(ship3);
     expect(testBoard2.getPosition(6, 2).position).toBe(4); // 2
-    console.log("gameboard - place ships - exit");
 });
 
-test("gameboard - receive attack", () => {});
+test("gameboard - receive attack", () => {
+    const testBoard3 = gameBoard();
+    testBoard3.placeShip("Ship-1", 0, 0, 5, "horizontal");
+    testBoard3.placeShip("Ship-2", 4, 3, 5, "horizontal");
+    testBoard3.placeShip("Ship-3", 2, 2, 5, "vertical");
+
+    expect(testBoard3.checkAllShipsSunk()).toBeFalsy();
+
+    // sink ship 1
+    expect(testBoard3.getPosition(0, 0).ship.isSunk()).toBeFalsy();
+    for (let i = 0; i < 5; i++) {
+        testBoard3.receiveAttack(0, i);
+    }
+    expect(testBoard3.getPosition(0, 0).ship.isSunk()).toBeTruthy();
+    expect(testBoard3.checkAllShipsSunk()).toBeFalsy();
+
+    // sink ship 2
+    expect(testBoard3.getPosition(4, 3).ship.isSunk()).toBeFalsy();
+    for (let i = 0; i < 5; i++) {
+        testBoard3.receiveAttack(4, 3 + i);
+    }
+    expect(testBoard3.getPosition(4, 3).ship.isSunk()).toBeTruthy();
+    expect(testBoard3.checkAllShipsSunk()).toBeFalsy();
+
+    // sink ship 3
+    expect(testBoard3.getPosition(2, 2).ship.isSunk()).toBeFalsy();
+    for (let i = 0; i < 5; i++) {
+        testBoard3.receiveAttack(2 + i, 2);
+    }
+    expect(testBoard3.getPosition(2, 2).ship.isSunk()).toBeTruthy();
+    expect(testBoard3.checkAllShipsSunk()).toBeTruthy();
+});
 
 test("gameboard - all ships sunk", () => {});

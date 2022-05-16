@@ -2,21 +2,16 @@ const ship = require("../src/ships");
 
 const gameBoard = () => {
     const boardSize = 10;
-    const board = new Array();
-    for (let i = 0; i < 10; i++) {
-        board.push(new Array(boardSize).fill(0));
-    }
+    const board = new Array(boardSize)
+        .fill(null)
+        .map(() => new Array(boardSize).fill(0));
     const horizontal = "horizontal";
 
-    let _counter = 0;
+    const hitOrMissBoard = new Array(boardSize)
+        .fill(null)
+        .map(() => new Array(boardSize).fill(-1));
 
-    function getCounter() {
-        return _counter;
-    }
-
-    function incCounter() {
-        _counter++;
-    }
+    const ships = [];
 
     const placeShip = (name, row, col, length, orientation) => {
         if (!checkValidPlacement(row, col, length, orientation)) return;
@@ -36,6 +31,7 @@ const gameBoard = () => {
                 };
             }
         }
+        ships.push(shipToPlace);
     };
 
     const checkValidPlacement = (row, col, length, orientation) => {
@@ -56,10 +52,28 @@ const gameBoard = () => {
     const getPosition = (row, col) => board[row][col];
 
     const receiveAttack = (row, col) => {
-        if (!checkValidAttack(row, col)) return false;
-        const {ship, position} = board[row][col];
-        ship.hit(position);
-        return true;
+        if (checkValidAttack(row, col)) {
+            const {ship, position} = board[row][col];
+            ship.hit(position);
+            hitOrMissBoard[row][col] = 1;
+            if (ship.isSunk()) {
+                const index = getShipIndex(ship);
+                ships.splice(index, 1);
+            }
+        } else {
+            hitOrMissBoard[row][col] = 0;
+        }
+    };
+
+    const getShipIndex = ship => {
+        for (let i = 0; i < ships.length; i++) {
+            if (ships[i].name === ship.name) return i;
+        }
+        return -1;
+    };
+
+    const checkAllShipsSunk = () => {
+        return ships.length === 0;
     };
 
     const checkValidAttack = (row, col) => {
@@ -70,22 +84,11 @@ const gameBoard = () => {
         return true;
     };
 
-    const printGameBoard = () => {
-        for (let i = 0; i < boardSize; i++) {
-            for (let j = 0; j < boardSize; j++) {
-                console.log(`[${i}][${j}]: ${getPosition(i, j)} `);
-            }
-            console.log();
-        }
-    };
-
     return {
         getPosition,
         placeShip,
         receiveAttack,
-        incCounter,
-        getCounter,
-        printGameBoard,
+        checkAllShipsSunk,
     };
 };
 
