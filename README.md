@@ -32,7 +32,7 @@ Project: Battleship serves as an exercise in TDD. The game will be written in Ja
 ## To do
 
 -   [x] Create the Ship factory function.
--   [ ] Create Gameboard factory.
+-   [x] Create Gameboard factory.
 -   [ ] Create Player.
 -   [ ] Create 'AI' that can make legal moves
 -   [ ] Create the main game loop and a module for DOM interaction.
